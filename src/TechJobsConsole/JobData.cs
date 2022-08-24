@@ -37,7 +37,7 @@ namespace TechJobsConsole
             }
             return values;
         }
-
+        // create new public static method FindByValue that will search for a string within each of the columns
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
@@ -47,14 +47,33 @@ namespace TechJobsConsole
 
             foreach (Dictionary<string, string> row in AllJobs)
             {
-                string aValue = row[column];
+                string aValue = row[column].ToLower();
 
-                if (aValue.Contains(value))
+                if (aValue.Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
             }
 
+            return jobs;
+        }
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs) // could try going by row instead of job
+            {
+                foreach (KeyValuePair<string, string> kv in job)
+                {
+                    if ((kv.Value.ToLower()).Contains(value.ToLower()))
+                    {
+                        jobs.Add(job);
+                        break;
+                    }
+                }
+            }
             return jobs;
         }
 
